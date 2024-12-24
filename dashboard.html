@@ -1,0 +1,62 @@
+{% extends 'app.html' %}
+{% block content %}
+
+<div class="container">
+  <h2>Welcome to the Dashboard</h2>
+
+  {% if user %}
+      <p>User Information:</p>
+      <ul>
+          <li>Name: {{ user[1] }}</li>
+          <li>Email: {{ user[2] }}</li>
+      </ul>
+      <a href="/logout" class="btn btn-dark">Logout</a>
+  {% endif %}
+
+  <h3>Student List</h3>
+  <input type="text" id="filterInputId" placeholder="Enter student ID to filter" class="form-control mb-3">
+  <button class="btn btn-primary" onclick="filterById()">Filter by ID</button>
+
+  <input type="text" id="filterInputState" placeholder="Enter student state to filter" class="form-control mt-3 mb-3">
+  <button class="btn btn-secondary" onclick="filterByState()">Filter by State</button>
+  
+  <ul id="studentList" class="list-group mt-3">
+      <li class="list-group-item" data-id="1" data-state="California">ID: 1 - Name: John Doe - State: California</li>
+      <li class="list-group-item" data-id="2" data-state="New York">ID: 2 - Name: Jane Smith - State: New York</li>
+      <li class="list-group-item" data-id="3" data-state="Texas">ID: 3 - Name: Alice Johnson - State: Texas</li>
+      <li class="list-group-item" data-id="4" data-state="Florida">ID: 4 - Name: Bob Brown - State: Florida</li>
+      <li class="list-group-item" data-id="5" data-state="California">ID: 5 - Name: Charlie White - State: California</li>
+  </ul>
+</div>
+
+<script>
+function filterById() {
+    const input = document.getElementById('filterInputId').value;
+    const studentList = document.getElementById('studentList').children;
+
+    for (const student of studentList) {
+        const studentId = student.getAttribute('data-id');
+        if (input === '' || studentId === input) {
+            student.style.display = 'list-item';
+        } else {
+            student.style.display = 'none';
+        }
+    }
+}
+
+function filterByState() {
+    const input = document.getElementById('filterInputState').value.toLowerCase();
+    const studentList = document.getElementById('studentList').children;
+
+    for (const student of studentList) {
+        const studentState = student.getAttribute('data-state').toLowerCase();
+        if (input === '' || studentState === input) {
+            student.style.display = 'list-item';
+        } else {
+            student.style.display = 'none';
+        }
+    }
+}
+</script>
+
+{% endblock %}
